@@ -25,7 +25,7 @@ pub mod post_checker {
         }
     
         pub fn add_text(&mut self, text: &str) {
-            self.content.push_str(text);
+            self.content.push_str(text)
         }
     
         pub fn request_review(&mut self) {
@@ -36,7 +36,7 @@ pub mod post_checker {
     
         pub fn approve(&mut self) {
             if let Some(s) = self.state.take() {
-                self.state = Some(s.approve());
+                self.state = Some(s.approve())
             }
         }
     }
