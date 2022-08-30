@@ -1,5 +1,5 @@
 
-use state_pattern_with_enums::post_checker::Post;
+use state_pattern_with_enums::post_checker::{Post, States};
 
 fn main() {
 	let mut post = Post::new();
@@ -12,5 +12,9 @@ fn main() {
 
 	post.approve();
 	assert_eq!("I ate a salad for lunch today", post.content());
+
+	post.reject();
+	assert_eq!(States::Draft, post.display_state());
+
 }
 
