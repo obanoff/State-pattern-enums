@@ -8,7 +8,7 @@
 
 
 
-pub mod post_checker {
+pub mod post_checker_dyn {
 
     #[derive(Copy, Clone, Debug, PartialEq)]
     pub enum States { // represents Post states
@@ -123,8 +123,7 @@ pub mod post_checker {
         fn reject(self: Box<Self>) -> Box<dyn State> {
             match *self {
                 Draft => self,
-                PendingReview => Box::new(Draft),
-                Published(_) => Box::new(Draft),
+                _ => Box::new(Draft),
             }
         }
 
@@ -141,4 +140,75 @@ pub mod post_checker {
             }
         }
     }    
+}
+
+
+
+
+
+//💫💫💫 implemantaion using pure enums without any generics or trait objects:
+
+pub mod post_checker_pure {
+    #[derive(PartialEq, Debug, Clone, Copy)]
+    pub enum States {
+        Draft,
+        PendindReview,
+        Published(bool),
+    }
+
+    pub struct Post {
+        state: States,
+        content: String,
+    }
+
+    use self::States::{Draft, PendindReview, Published};
+
+    impl Post {
+        pub fn new() -> Self {
+            Self {
+                state: Draft,
+                content: String::new(),
+            }
+        }
+
+        pub fn add_text(&mut self, text: &str) {
+            if self.state == Draft {
+                self.content.push_str(text);
+            }
+        }
+
+        pub fn request_review(&mut self) {
+            if self.state == Draft {
+                self.state = PendindReview;
+            }
+        }
+
+        pub fn approve(&mut self) {
+            match self.state {
+                PendindReview => {
+                    self.state = Published(false);
+                },
+                Published(b) => {
+                    if b == false {
+                        self.state = Published(true);
+                    }
+                },
+                _ => (),
+            };
+        }
+
+        pub fn content(&self) -> &str {
+            if self.state == Published(true) {
+                &self.content
+            } else { "" }
+        }
+
+        pub fn reject(&mut self) {
+            self.state = Draft;
+        }
+
+        pub fn get_state(&self) -> States{
+            self.state
+        }
+    }
 }

@@ -1,5 +1,7 @@
 
-use state_pattern_with_enums::post_checker::{Post, States};
+//🔥🔥🔥 import 2 different implementations: based on trait object + enums and pure enums
+// use state_pattern_with_enums::post_checker_dyn::{Post, States};
+use state_pattern_with_enums::post_checker_pure::{Post, States};
 
 fn main() {
 	let mut post = Post::new();
