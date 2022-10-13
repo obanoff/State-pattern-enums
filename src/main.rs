@@ -24,7 +24,7 @@ fn main() {
 	post.reject(); // return state to Draft
 	assert_eq!(States::Draft, post.get_state());
 
-    post.add_text(" and still remained hungry"); // adding text in Draft state allowed
+    post.add_text(" and still remained hungry"); // adding text in Draft state is allowed
     post.request_review();
     post.approve();
     post.approve();
